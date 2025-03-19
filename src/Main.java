@@ -24,12 +24,8 @@ public class Main {
             inputs.add(sc.nextDouble());
         }
 
-        System.out.println("Wprowadź oczekiwaną odpowiedź");
-        int answer = sc.nextInt();
-
         Perceptron perceptron = new Perceptron(weights,prog);
-
-
+        System.out.println( perceptron.Compute(inputs));
 
     }
 }
