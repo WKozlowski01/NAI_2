@@ -9,9 +9,9 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String[] args) {
 
-Scanner sc = new Scanner(System.in);
-        Path testPath = Paths.get("src/iris_test.txt");
-        Path treningPath = Paths.get("src/iris_training.txt");
+        Scanner sc = new Scanner(System.in);
+        Path testPath = Paths.get("iris_test.txt");
+        Path treningPath = Paths.get("iris_training.txt");
         List<Vct> TreningVectrors = new ArrayList<>();
         List<Vct> TestVectrors = new ArrayList<>();
 
@@ -30,28 +30,15 @@ Scanner sc = new Scanner(System.in);
             throw new RuntimeException(e);
 
         }
-
-//        System.out.println("Wprowadź syganły wejściowe");
-//        List<Double> inputs = new ArrayList<>();
-//        for(int i =0; i <TreningVectrors.getFirst().getSize() ; i++){
-//            inputs.add(sc.nextDouble());
-//        }
-
-//        System.out.println(inputs);
-
-        Random rand  = new Random();
+        Random rand = new Random();
         List<Double> weightsRandom = Stream.generate(rand::nextDouble).limit(TreningVectrors.getFirst().getSize()).collect(Collectors.toList());
-        double progRandom  = Math.random();
+        double progRandom = Math.random();
 
 
-
-        Perceptron perceptron = new Perceptron(weightsRandom,progRandom);
-//        System.out.println( perceptron.Compute(inputs));
-
-
+        Perceptron perceptron = new Perceptron(weightsRandom, progRandom);
 
         List<Integer> traningIfWork = new ArrayList<>();
-        do  {
+        do {
             traningIfWork.clear();
             for (Vct vct : TreningVectrors) {
                 int dec = vct.getName().equals("Iris-setosa") ? 1 : 0;
@@ -64,37 +51,60 @@ Scanner sc = new Scanner(System.in);
                 int tmp = perceptron.Leran(wsp, dec);
                 traningIfWork.add(tmp);
             }
-        }while (!traningIfWork.contains(0));
-
-
+        } while (traningIfWork.contains(0));
 
 
         List<Integer> results = new ArrayList<>();
 
 
-            for (Vct vct : TestVectrors) {
+        for (Vct vct : TestVectrors) {
 
-                int dec = vct.getName().equals("Iris-setosa") ? 1 : 0;
-                int result = 0;
-                List<Double> wsp = new ArrayList<>();
+            int testDec = vct.getName().equals("Iris-setosa") ? 1 : 0;
+            int result = 0;
+            List<Double> wsp = new ArrayList<>();
 
-                for (double x : vct.getCoordinates()) {
-                    wsp.add(x);
-                }
-
-                result = perceptron.Compute(wsp);
-
-                if (result == dec) {
-                    results.add(1);
-                } else {
-                    results.add(0);
-                }
+            for (double x : vct.getCoordinates()) {
+                wsp.add(x);
             }
 
+            result = perceptron.Compute(wsp);
+
+            if (result == testDec) {
+                results.add(1);
+            } else {
+                results.add(0);
+            }
+        }
+
         System.out.println(results);
-        System.out.println("Skutecznosc wynosi: "+(results.stream().filter(n -> n==1).count() / results.size() ) * 100 +"%");
+        double counter=0;
 
+        for(var x : results){
+            if (x == 1){
+                counter++;
+            }
+        }
+        System.out.println("Skutecznosc wynosi: " + (counter/(double)results.size())*100 +"%");
 
+        Scanner userScanner = new Scanner(System.in);
+        List<Double> userList = new ArrayList<>();
+        while (true) {
+
+            userList.clear();
+            System.out.println("Podaj " + TreningVectrors.get(0).getSize() + " współrzędne wektora");
+           for(int i =0 ; i< TreningVectrors.get(0).getSize();i++){
+               userList.add(userScanner.nextDouble());
+           }
+
+            int result = perceptron.Compute(userList);
+            String answer;
+            if (result == 1){
+                answer = "Iris-setosa";
+            } else{
+                answer = "Nie irys-setosa";
+            }
+            System.out.println("Ten kwiat to: "+answer+"\n");
+        }
     }
 
     private static Vct fileOperations(String line) {

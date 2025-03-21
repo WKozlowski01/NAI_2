@@ -2,13 +2,13 @@ import java.util.Arrays;
 
 public class Vct {
 
-    private String name;
+    private String Name;
     private int size;
     private double coordinates[];
 
 
     public Vct(String name, int size) {
-        this.name = name;
+        this.Name = name.trim();
         this.size = size;
         coordinates = new double[size];
     }
@@ -23,11 +23,11 @@ public class Vct {
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public int getSize() {
@@ -40,6 +40,6 @@ public class Vct {
 
     @Override
     public String toString() {
-        return Arrays.toString(coordinates) + " " + name;
+        return Arrays.toString(coordinates) + " " + Name;
     }
 }
