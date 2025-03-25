@@ -51,7 +51,7 @@ public class Perceptron {
         if (y == decision) return 1;
 
         double stalaPoprawki = (decision - y) * learnConst;
-
+        //this.threshold = threshold + stalaPoprawki;
 
         IntStream.range(0, weights.size()).forEach(i -> weights.set(i, weights.get(i) + stalaPoprawki * inputs.get(i)));
 

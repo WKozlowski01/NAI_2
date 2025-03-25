@@ -31,7 +31,7 @@ public class Main {
 
         }
         Random rand = new Random();
-        List<Double> weightsRandom = Stream.generate(rand::nextDouble).limit(TreningVectrors.getFirst().getSize()).collect(Collectors.toList());
+        List<Double> weightsRandom = Stream.generate(rand::nextDouble).limit(TreningVectrors.get(0).getSize()).collect(Collectors.toList());
         double progRandom = Math.random();
 
 
@@ -51,6 +51,7 @@ public class Main {
                 int tmp = perceptron.Leran(wsp, dec);
                 traningIfWork.add(tmp);
             }
+            System.out.println(traningIfWork);
         } while (traningIfWork.contains(0));
 
 
